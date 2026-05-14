@@ -3,6 +3,7 @@
 import { use, useEffect, useState } from 'react';
 import api from '@/lib/axios';
 import { CheckCircle, XCircle, Pill, User, Calendar } from 'lucide-react';
+import axios from 'axios';
 
 export default function VerifyPrescription({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -13,10 +14,18 @@ export default function VerifyPrescription({ params }: { params: Promise<{ id: s
   console.log('Verifying prescription with ID:', id);
 
   useEffect(() => {
-    if (!id) return; // Seguridad extra
-    api.get(`/prescriptions/public/verify/${id}`)
+    if (!id) return;
+
+    // Obtén la URL base de tu variable de entorno
+    const baseURL = 'https://frontend-prueba-taupe.vercel.app';
+
+    // USA AXIOS DIRECTO AQUÍ (sin interceptores)
+    axios.get(`${baseURL}/prescriptions/public/verify/${id}`)
       .then(res => setData(res.data))
-      .catch(() => setError(true));
+      .catch((err) => {
+        console.error('Error verificando:', err);
+        setError(true);
+      });
   }, [id]);
 
   if (error) return (
