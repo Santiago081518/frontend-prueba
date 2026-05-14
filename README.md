@@ -1,3 +1,8 @@
+## 🌐 Enlaces de Despliegue
+
+- **Frontend (Vercel):** [https://frontend-prueba-taupe.vercel.app](https://frontend-prueba-taupe.vercel.app)
+- **API (Render):** [https://backend-prueba-0g6r.onrender.com/api](https://backend-prueba-0g6r.onrender.com/api)
+
 # 🏥 Portal de Prescripciones Médicas — Frontend
 
 ![Next.js](https://img.shields.io/badge/next.js-%23000000.svg?style=for-the-badge&logo=next.js&logoColor=white)
