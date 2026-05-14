@@ -1,22 +1,23 @@
 'use client';
-import { useEffect, useState } from 'react';
+
+import { use, useEffect, useState } from 'react';
 import api from '@/lib/axios';
 import { CheckCircle, XCircle, Pill, User, Calendar } from 'lucide-react';
 
-export default function VerifyPrescription({ params }: { params: { id: string } }) {
-  const [data, setData] = useState<any>(null);
+export default function VerifyPrescription({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
+
   const [error, setError] = useState(false);
+  const [data, setData] = useState<any>(null);
 
-  console.log('Verifying prescription with ID:', params.id);
-
-  console.log('Verifying prescription', params);
+  console.log('Verifying prescription with ID:', id);
 
   useEffect(() => {
-    // Nota: Crea un endpoint público en el back que no pida token para esto
-    api.get(`/prescriptions/public/verify/${params.id}`)
+    if (!id) return; // Seguridad extra
+    api.get(`/prescriptions/public/verify/${id}`)
       .then(res => setData(res.data))
       .catch(() => setError(true));
-  }, [params.id]);
+  }, [id]);
 
   if (error) return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
