@@ -21,7 +21,7 @@ export default function LoginPage() {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:3001/api/auth/login', {
+      const response = await axios.post('https://backend-prueba-0g6r.onrender.com/api/auth/login', {
         email,
         password,
       });
