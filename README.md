@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏥 Portal de Prescripciones Médicas — Frontend
 
-## Getting Started
+![Next.js](https://img.shields.io/badge/next.js-%23000000.svg?style=for-the-badge&logo=next.js&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 
-First, run the development server:
+Interfaz moderna y responsiva para la gestión de prescripciones médicas digitales. Conecta con el [backend de prescripciones](#) para ofrecer a médicos, pacientes y administradores flujos de trabajo diferenciados según su rol, con validación QR pública para farmacias.
+
+---
+
+## ✨ Características Principales
+
+| Característica                 | Descripción                                                                  |
+| ------------------------------ | ---------------------------------------------------------------------------- |
+| 🛡️ **Protección de Rutas**     | Middleware y guards de rol (RBAC) que previenen accesos no autorizados       |
+| 📊 **Dashboard Visual**        | Gráficos dinámicos con Recharts para métricas administrativas en tiempo real |
+| 📱 **Diseño Responsive**       | Adaptabilidad completa a móvil y escritorio con Tailwind CSS                 |
+| 📄 **Visor de Prescripciones** | Consulta detallada de recetas y gestión de descargas PDF                     |
+| 🔍 **Verificación QR**         | Página pública para validar autenticidad de recetas por escaneo              |
+| 🔔 **Feedback en Tiempo Real** | Notificaciones inmediatas de éxito/error con Sonner                          |
+
+---
+
+## 🛠️ Stack Tecnológico
+
+- **Framework:** [Next.js 14 — App Router](https://nextjs.org/)
+- **Estilos:** [Tailwind CSS](https://tailwindcss.com/)
+- **Lenguaje:** TypeScript
+- **Gestión de Estado:** React Hooks (Context / useState)
+- **Visualización:** [Recharts](https://recharts.org/)
+- **Iconos:** Lucide React
+- **HTTP:** Axios con interceptores para adjuntar JWT automáticamente
+- **Notificaciones:** Sonner
+
+---
+
+## 📂 Estructura del Proyecto
+
+```text
+src/
+├── app/
+│   ├── (auth)/        # Login y registro de usuarios
+│   ├── (dashboard)/   # Vistas protegidas por rol (Admin, Médico, Paciente)
+│   ├── verify/        # Ruta pública de validación por QR
+│   └── layout.tsx     # Proveedores globales y configuración de UI
+├── components/        # Componentes reutilizables: modales, tablas, gráficos
+├── lib/               # Configuración de Axios e instancias de API
+├── hooks/             # Hooks personalizados de autenticación y fetching
+└── types/             # Tipos TypeScript compartidos con la API
+```
+
+---
+
+## 🚀 Instalación y Configuración
+
+### Prerrequisitos
+
+- Node.js >= 18
+- Backend configurado y en ejecución (ver [repositorio del backend](#))
+- npm o yarn
+
+### 1. Clonar e instalar dependencias
+
+```bash
+git clone <repo-url-front>
+cd <nombre-del-proyecto-front>
+npm install
+```
+
+### 2. Configurar variables de entorno
+
+Crea un archivo `.env.local` en la raíz del proyecto:
+
+```env
+NEXT_PUBLIC_API_URL="http://localhost:3001"
+```
+
+> ⚠️ Asegúrate de que `.env.local` esté en `.gitignore` antes de hacer push.
+
+### 3. Iniciar en modo desarrollo
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+La aplicación estará disponible en `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🔐 Acceso por Roles
 
-## Learn More
+| Ruta           | Descripción                                 | Acceso        |
+| -------------- | ------------------------------------------- | ------------- |
+| `/admin`       | Dashboard de métricas y gestión de usuarios | Administrador |
+| `/doctor`      | Listado y creación de nuevas recetas        | Médico        |
+| `/patient`     | Bandeja de entrada y descarga de PDF        | Paciente      |
+| `/verify/[id]` | Validación pública de autenticidad vía QR   | Público       |
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📝 Decisiones de Implementación
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Interceptores de Axios:** Configurados para adjuntar automáticamente el `Bearer Token` en cada petición tras el login, y para redirigir al login si el servidor retorna `401`.
 
-## Deploy on Vercel
+**Flujo de Verificación QR:** El PDF generado por el backend incluye un QR que codifica una URL única apuntando a `/verify/[id]`. Cualquier farmacia puede escanearla para confirmar la validez de la receta sin necesidad de autenticación.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Separación de layouts por rol:** Cada grupo de rutas en `(dashboard)/` tiene su propio layout con navegación adaptada al perfil del usuario, evitando renderizado condicional complejo en componentes individuales.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+_Desarrollado con ❤️ como prueba técnica — 2026_
