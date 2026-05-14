@@ -58,10 +58,10 @@ export default function AdminDashboard() {
 
   if (dataLoading) return <div className="p-10 text-center font-medium">Cargando panel...</div>;
 
-  const statusData = metrics ? [
-    { name: 'Pendientes', value: metrics.byStatus.pending, color: '#f59e0b' },
-    { name: 'Consumidas', value: metrics.byStatus.consumed, color: '#10b981' }
-  ] : [];
+  const statusData = [
+    { name: 'Pendientes', value: metrics.byStatus.pending || 0, color: '#3b82f6' },
+    { name: 'Consumidas', value: metrics.byStatus.consumed || 0, color: '#10b981' },
+  ];
 
   return (
     <RoleGuard allowedRoles={['admin']}>
@@ -102,7 +102,14 @@ export default function AdminDashboard() {
                 <ResponsiveContainer>
                   <LineChart data={metrics.byDay}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                    <XAxis dataKey="date" fontSize={10} axisLine={false} tickLine={false} />
+                    <XAxis
+                      dataKey="date"
+                      fontSize={10}
+                      axisLine={false}
+                      tickLine={false}
+                      minTickGap={30}
+                      tickFormatter={(str) => str.split('-').slice(1).join('/')}
+                    />
                     <Tooltip />
                     <Line type="monotone" dataKey="count" stroke="#3b82f6" strokeWidth={2} dot={false} />
                   </LineChart>
