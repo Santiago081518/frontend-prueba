@@ -7,6 +7,10 @@ export default function VerifyPrescription({ params }: { params: { id: string } 
   const [data, setData] = useState<any>(null);
   const [error, setError] = useState(false);
 
+  console.log('Verifying prescription with ID:', params.id);
+
+  console.log('Verifying prescription', params);
+
   useEffect(() => {
     // Nota: Crea un endpoint público en el back que no pida token para esto
     api.get(`/prescriptions/public/verify/${params.id}`)
