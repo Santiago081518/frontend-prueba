@@ -17,7 +17,7 @@ export default function VerifyPrescription({ params }: { params: Promise<{ id: s
     if (!id) return;
 
     // Obtén la URL base de tu variable de entorno
-    const baseURL = 'https://tu-api-en-render.onrender.com';
+    const baseURL = 'https://backend-prueba-0g6r.onrender.com';
 
     // USA AXIOS DIRECTO AQUÍ (sin interceptores)
     axios.get(`${baseURL}/prescriptions/public/verify/${id}`)
